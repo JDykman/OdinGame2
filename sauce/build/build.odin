@@ -28,6 +28,7 @@ EXE_NAME :: "game"
 Target :: enum {
 	windows,
 	mac,
+	linux,
 }
 
 main :: proc() {
@@ -39,12 +40,13 @@ main :: proc() {
 	start_time := time.now()
 
 	// note, ODIN_OS is built in, but we're being explicit
-	assert(ODIN_OS == .Windows || ODIN_OS == .Darwin, "unsupported OS target")
+	assert(ODIN_OS == .Windows || ODIN_OS == .Darwin || ODIN_OS == .Linux, "unsupported OS target")
 
 	target: Target
 	#partial switch ODIN_OS {
 		case .Windows: target = .windows
 		case .Darwin: target = .mac
+		case .Linux: target = .linux
 		case: {
 			log.error("Unsupported os:", ODIN_OS)
 			return
@@ -89,6 +91,7 @@ main :: proc() {
 	switch target {
 		case .windows: out_dir = "build/windows_debug"
 		case .mac: out_dir = "build/mac_debug"
+		case .linux: out_dir = "build/linux_debug"
 	}
 
 	full_out_dir_path := fmt.tprintf("%v/%v", wd, out_dir)
@@ -128,9 +131,17 @@ main :: proc() {
 			append(&files_to_copy, "sauce/bald/sound/fmod/studio/lib/darwin/libfmodstudioL.dylib")
 			append(&files_to_copy, "sauce/bald/sound/fmod/core/lib/darwin/libfmod.dylib")
 			append(&files_to_copy, "sauce/bald/sound/fmod/core/lib/darwin/libfmodL.dylib")
+
+			// TODO: Implement for linux
+			case .linux:
+				append(&files_to_copy, "sauce/bald/sound/fmod/studio/lib/linux/x86_64/libfmodstudio.so")
+				append(&files_to_copy, "sauce/bald/sound/fmod/studio/lib/linux/x86_64/libfmodstudioL.so")
+				append(&files_to_copy, "sauce/bald/sound/fmod/core/lib/linux/x86_64/libfmod.so")
+				append(&files_to_copy, "sauce/bald/sound/fmod/core/lib/linux/x86_64/libfmodL.so")
 		}
 
 		for src in files_to_copy {
+			if target == .linux{ break }
 			dir, file_name := path.split(src)
 			assert(os.exists(dir), fmt.tprint("directory doesn't exist:", dir))
 			dest := fmt.tprintf("%v/%v", out_dir, file_name)
