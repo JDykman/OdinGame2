@@ -79,9 +79,10 @@ main :: proc() {
 		fprintln(f, tprintf("PLATFORM :: Platform.%v", target))
 	}
 	
-	// generate the shader
-	// docs: https://github.com/floooh/sokol-tools/blob/master/docs/sokol-shdc.md
-	utils.fire("sokol-shdc", "-i", "sauce/bald/draw/shader_core.glsl", "-o", "sauce/bald-user/generated_shader.odin", "-l", "hlsl5:metal_macos", "-f", "sokol_odin")
+    // generate the shader
+    // docs: https://github.com/floooh/sokol-tools/blob/master/docs/sokol-shdc.md
+    // Include GLSL for Linux, HLSL for Windows, and Metal for macOS so one generated file works cross-platform.
+    utils.fire("sokol-shdc", "-i", "sauce/bald/draw/shader_core.glsl", "-o", "sauce/bald-user/generated_shader.odin", "-l", "glsl330:hlsl5:metal_macos", "-f", "sokol_odin")
 
 	wd := os.get_current_directory()
 

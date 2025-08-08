@@ -17,7 +17,7 @@ package fmod_core
 // FMOD constants
 //
 
-VERSION: u32 : 0x00020215 /* 0xaaaabbcc -> aaaa = product version, bb = major version, cc = minor version.*/
+VERSION: u32 : 0x00020307 /* 0xaaaabbcc -> aaaa = product version, bb = major version, cc = minor version.*/
 
 
 

@@ -76,11 +76,11 @@ update :: proc(listener_pos: Vec2, master_volume: f32) {
 	fmod_error_check(System_Update(state.system))
 	
 	// update listener pos
-	attributes : fcore._3D_ATTRIBUTES;
-	attributes.position = {listener_pos.x, 0, listener_pos.y};
-	attributes.forward = {0, 0, 1};
-	attributes.up = {0, 1, 0};
-	fmod_error_check(System_SetListenerAttributes(state.system, 0, attributes, nil));
+    attributes : fcore._3D_ATTRIBUTES;
+    attributes.position = fcore.VECTOR{listener_pos.x, 0, listener_pos.y};
+    attributes.forward = fcore.VECTOR{0, 0, 1};
+    attributes.up = fcore.VECTOR{0, 1, 0};
+    fmod_error_check(System_SetListenerAttributes(state.system, 0, attributes, nil));
 }
 
 play :: proc(name: string, pos := INVALID_POS, cooldown_ms :f32= 40.0) -> ^fstudio.EVENTINSTANCE {
@@ -99,10 +99,10 @@ play :: proc(name: string, pos := INVALID_POS, cooldown_ms :f32= 40.0) -> ^fstud
 	fmod_error_check(EventInstance_Start(instance))
 	
 	// 3D
-	attributes : fcore._3D_ATTRIBUTES;
-	attributes.position = {pos.x, 0, pos.y};
-	attributes.forward = {0, 0, 1};
-	attributes.up = {0, 1, 0};
+    attributes : fcore._3D_ATTRIBUTES;
+    attributes.position = fcore.VECTOR{pos.x, 0, pos.y};
+    attributes.forward = fcore.VECTOR{0, 0, 1};
+    attributes.up = fcore.VECTOR{0, 1, 0};
 	fmod_error_check(EventInstance_Set3DAttributes(instance, &attributes));
 
 	// auto-release when sound finished
@@ -205,7 +205,7 @@ update_pos :: proc(event: ^fstudio.EVENTINSTANCE, pos: Vec2) -> bool {
 	  return false
 	}
 	
-	attrib.position = {pos.x, 0, pos.y}
+    attrib.position = fcore.VECTOR{pos.x, 0, pos.y}
 	
 	ok = EventInstance_Set3DAttributes(event, &attrib)
 	if ok != .OK {
