@@ -93,7 +93,6 @@ Entity :: struct {
 	handle: Entity_Handle,
 	kind: Entity_Kind,
 
-	// todo, move this into static entity data
 	update_proc: proc(^Entity),
 	draw_proc: proc(Entity),
 
@@ -108,9 +107,9 @@ Entity :: struct {
 	hit_flash: Vec4,
 	sprite: Sprite_Name,
 	anim_index: int,
-  next_frame_end_time: f64,
-  loop: bool,
-  frame_duration: f32,
+	next_frame_end_time: f64,
+	loop: bool,
+	frame_duration: f32,
 	
 	// this gets zeroed every frame. Useful for passing data to other systems.
 	scratch: struct {
@@ -387,7 +386,6 @@ update_entity_animation :: proc(e: ^Entity) {
 		if end_time_up(e.next_frame_end_time) {
 			e.anim_index += 1
 			e.next_frame_end_time = 0
-			//e.did_frame_advance = true
 			if e.anim_index >= frame_count {
 
 				if e.loop {

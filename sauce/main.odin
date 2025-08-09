@@ -42,13 +42,12 @@ import sg "bald:sokol/gfx"
 import sglue "bald:sokol/glue"
 import slog "bald:sokol/log"
 
-import win32 "core:sys/windows" // wait, how is this building on mac?
+import win32 "core:sys/windows"
 
 Core_Context :: struct {
 	gs: ^Game_State,
 	delta_t: f32,
 
-	// #todo, put input in here and make helpers that wrap over
 }
 ctx: Core_Context
 
@@ -84,9 +83,6 @@ core_app_init :: proc "c" () { // these sokol callbacks are c procs
 	s := utils.seconds_since_init()
 	assert(s == 0)
 
-	// flick this on if you want to yeet the debug console on startup
-	// I prefer it right now over the raddbg output because it's faster for print debugging
-	// since it doesn't animate
 	when ODIN_OS == .Windows {
 		win32.FreeConsole()
 	}

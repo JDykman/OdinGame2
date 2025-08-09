@@ -33,14 +33,13 @@ void main() {
 	if (tex_index == 0) {
 		tex_col = texture(sampler2D(tex0, default_sampler), uv);
 	} else if (tex_index == 1) {
-		// this is text, it's only got the single .r channel so we stuff it into the alpha
+	// text uses the single .r channel stuffed into alpha
 		tex_col.a = texture(sampler2D(font_tex, default_sampler), uv).r;
 	}
 	
 	col_out = tex_col;
 
-	// example of using a flag to override a pixel and just do whatever with it.
-	// here, we're repeating a texture every 128 square pixels
+	// Example of using a flag to override a pixel (repeat a texture every 128 square pixels)
 	if (has_flag(flags, FLAG_background_pixels)) {
 		float wrap_length = 128.0;
 		vec2 uv = world_pixel / wrap_length;
@@ -49,8 +48,7 @@ void main() {
 		col_out.rgb = img.rgb;
 	}
 
-	// add :pixel stuff here ^
-	
+
 	col_out *= color;
 	
 	col_out.rgb = mix(col_out.rgb, color_override.rgb, color_override.a);

@@ -25,7 +25,7 @@ Entity_Handle :: struct {
 	id: int,
 }
 
-zero_entity: Entity // #readonlytodo
+zero_entity: Entity
 
 get_all_ents :: proc() -> []Entity_Handle {
 	return ctx.gs.scratch.all_entities

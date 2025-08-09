@@ -70,7 +70,6 @@ vec2 local_uv_to_atlas_uv(vec2 local_uv, vec4 atlas_uv) {
 	vec2 altas_uv_size = atlas_uv.zw-atlas_uv.xy;
 
 	vec2 wrapped_local_uv = fract(local_uv);
-	//vec2 wrapped_local_uv = vec2(mod(local_uv.x, 1), mod(local_uv.y, 1));
 
 	// punch in a bit from the edges so we don't go over
 	const float epsilon = 0.0001;

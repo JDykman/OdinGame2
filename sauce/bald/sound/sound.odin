@@ -11,10 +11,8 @@ Built to be a standalone package with no external dependencies.
 import fcore "fmod/core"
 import fstudio "fmod/studio"
 
-// you could use this during the build step to generate an enum list of sounds, that way you
-// don't need to manually match it with the event:/name thing. But it's kinda overkill tbh.
-// just typey typey
-//import fsbank "fmod/fsbank"
+// You could generate an enum list of sounds during the build to avoid manually matching
+// event names, but that's likely overkill here.
 
 import "core:strings"
 import "core:log"
@@ -46,9 +44,7 @@ init :: proc() {
 	using fstudio
 	using state
 	
-	//when DEBUG {
 	fmod_error_check(fcore.Debug_Initialize(fcore.DEBUG_LEVEL_WARNING, fcore.DEBUG_MODE.DEBUG_MODE_TTY, nil, "fmod.file"))
-	//}
 
 	fmod_error_check(System_Create(&system, fcore.VERSION))
 	
@@ -113,7 +109,6 @@ play :: proc(name: string, pos := INVALID_POS, cooldown_ms :f32= 40.0) -> ^fstud
 
 // note, this is separate to make it work with a fixed timestep
 update_sound_emitters :: proc() {
-	// yeet stale guys
 	#reverse for &emitter, i in state.sound_emitters {
 		if emitter.last_update_tick != state.sound_ticks {
 		
@@ -165,9 +160,6 @@ play_continuously :: proc(name: string, unique_id: string, pos := INVALID_POS) {
 
 			// update position
 			if pos != INVALID_POS {
-				// #TODO, figure out why this is failing and have it not spam the console
-
-				// this could fail, for fmod reasons...
 				succ := update_pos(emitter.event, pos)
 				if !succ {
 					delete_emitter(&emitter)

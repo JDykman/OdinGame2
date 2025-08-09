@@ -43,15 +43,13 @@ Vec2i :: [2]int
 Shape :: shape.Shape
 Rect :: shape.Rect
 Circle :: shape.Circle
-// #cleanup todo, remove these. it's not that much extra typing. It's only really worth it on the types.
 rect_make :: shape.rect_make
 rect_size :: shape.rect_size
 
 // utils package
 Pivot :: utils.Pivot
-scale_from_pivot :: utils.scale_from_pivot // #cleanup, remove this
+scale_from_pivot :: utils.scale_from_pivot
 
-// bald user stuff (this is cringe and will be yeeted soon)
 ZLayer :: user.ZLayer
 Quad_Flags :: user.Quad_Flags
 Sprite_Name :: user.Sprite_Name
