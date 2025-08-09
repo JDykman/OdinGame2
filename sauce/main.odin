@@ -162,5 +162,7 @@ core_app_shutdown :: proc "c" () {
 	context = our_context
 
 	app_shutdown()
+    // ensure FMOD is shut down cleanly before gfx shutdown
+    sound.shutdown()
 	sg.shutdown()
 }

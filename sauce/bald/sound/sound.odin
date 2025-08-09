@@ -216,6 +216,40 @@ update_pos :: proc(event: ^fstudio.EVENTINSTANCE, pos: Vec2) -> bool {
 	return true
 }
 
+// Cleanly shutdown FMOD: stop emitters, unload banks, and release the system
+shutdown :: proc() {
+    using state
+    using fstudio
+
+    if !state.initialized do return
+
+    // Stop any active emitters
+    #reverse for &emitter, i in state.sound_emitters {
+        _ = stop(emitter.event)
+        delete_emitter(&emitter)
+    }
+    state.sound_emitters = nil
+
+    // Flush any pending commands
+    _ = System_FlushCommands(state.system)
+
+    // Unload banks (defensive, System_UnloadAll will also do this)
+    if state.bank != nil do _ = Bank_Unload(state.bank)
+    if state.strings_bank != nil do _ = Bank_Unload(state.strings_bank)
+
+    // Ensure everything is unloaded then release
+    _ = System_UnloadAll(state.system)
+    _ = System_Release(state.system)
+
+    // Clear state
+    state.system = nil
+    state.core_system = nil
+    state.bank = nil
+    state.strings_bank = nil
+    state.master_ch_group = nil
+    state.initialized = false
+}
+
 //
 // helper stuff
 //
